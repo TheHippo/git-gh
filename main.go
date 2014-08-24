@@ -8,7 +8,8 @@ import (
 )
 
 var ghCommander = &commander.Command{
-	UsageLine: os.Args[0] + " - commandline interface for GitHub",
+	UsageLine: "git-gh", //os.Args[0] + " - commandline interface for GitHub",
+	Short:     "Github command line interface",
 }
 
 func init() {

@@ -51,7 +51,6 @@ func findRepositoryRoot(path string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	fmt.Println(strings.TrimSpace(string(rootPathCommandOutput)))
 	return strings.TrimSpace(string(rootPathCommandOutput)), nil
 }
 
