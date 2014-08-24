@@ -3,11 +3,6 @@
 	"GoVersion": "go1.3.1",
 	"Deps": [
 		{
-			"ImportPath": "code.google.com/p/goauth2/oauth",
-			"Comment": "weekly-52",
-			"Rev": "eab72654f29565de1ca70f82403acaed1100367e"
-		},
-		{
 			"ImportPath": "github.com/gonuts/commander",
 			"Rev": "f8ba4e959ca914268227c3ebbd7f6bf0bb35541a"
 		},
