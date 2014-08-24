@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 
-	"code.google.com/p/goauth2/oauth"
 	"github.com/google/go-github/github"
 )
 
@@ -22,14 +22,6 @@ func init() {
 	}
 }
 
-func getTransport() *oauth.Transport {
-	return &oauth.Transport{
-		Token: &oauth.Token{
-			AccessToken: authToken,
-		},
-	}
-}
-
 func getClient() github.Client {
-	return *github.NewClient(getTransport().Client())
+	return *github.NewClient()
 }
