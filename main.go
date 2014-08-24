@@ -14,7 +14,6 @@ var ghCommander = &commander.Command{
 func init() {
 
 	ghCommander.Subcommands = []*commander.Command{
-		initCommand,
 		issueCommand,
 		pullRequestCommand,
 	}

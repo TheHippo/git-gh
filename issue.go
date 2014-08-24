@@ -5,6 +5,7 @@ import (
 
 	"github.com/gonuts/commander"
 	"github.com/gonuts/flag"
+	//"github.com/google/go-github/github"
 )
 
 var issueCommand = &commander.Command{
@@ -23,6 +24,9 @@ func init() {
 
 func runIssues(cmd *commander.Command, args []string) error {
 	fmt.Println("Issues...")
+
+	client := getClient()
+	fmt.Println(client)
 	fmt.Println(rootFolder)
 	return nil
 }
