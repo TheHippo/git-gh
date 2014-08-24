@@ -1,10 +1,16 @@
 package main
 
 import (
-	"fmt"
+	"os"
+	"text/template"
 
 	"github.com/google/go-github/github"
 )
+
+var listIssuesTemplate = template.Must(template.New("listIssues").Parse(`
+{{ range . }}{{ .Number }} {{ .Title }}
+{{ end }}
+`))
 
 func stateString(closed bool) string {
 	if closed {
@@ -21,8 +27,6 @@ func listIssues(repository *repository, client github.Client, closed bool) error
 	if err != nil {
 		return err
 	}
-	for _, issue := range issues {
-		fmt.Println(*issue.Number, *issue.Title)
-	}
-	return nil
+	err = listIssuesTemplate.Execute(os.Stdout, issues)
+	return err
 }
