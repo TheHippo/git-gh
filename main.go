@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/codegangsta/cli"
+	"github.com/google/go-github/github"
 )
 
 const (
@@ -12,6 +13,17 @@ const (
 
 	rootDirectoryFlag = "git-directory"
 )
+
+const (
+	errorCodeIssueList = iota + 1
+	errorCodeIssueCreate
+)
+
+func getBase(path string) (repository *repository, client github.Client) {
+	repository = newRepository(path)
+	client = getClient()
+	return
+}
 
 func main() {
 	app := cli.NewApp()
@@ -38,8 +50,12 @@ func main() {
 					ShortName: "l",
 					Usage:     "List issues",
 					Action: func(c *cli.Context) {
-						fmt.Println("List issues")
-						fmt.Println(c.GlobalString(rootDirectoryFlag))
+						repository, client := getBase(c.GlobalString(rootDirectoryFlag))
+						if err := listIssues(repository, client); err != nil {
+							fmt.Println("Could not list issues: ", err.Error())
+							os.Exit(errorCodeIssueList)
+						}
+
 					},
 				},
 				{
