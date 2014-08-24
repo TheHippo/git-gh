@@ -1,0 +1,14 @@
+{
+	"ImportPath": "github.com/TheHippo/git-gh",
+	"GoVersion": "go1.3.1",
+	"Deps": [
+		{
+			"ImportPath": "github.com/gonuts/commander",
+			"Rev": "f8ba4e959ca914268227c3ebbd7f6bf0bb35541a"
+		},
+		{
+			"ImportPath": "github.com/gonuts/flag",
+			"Rev": "741a6cbd37a30dedc93f817e7de6aaf0ca38a493"
+		}
+	]
+}
