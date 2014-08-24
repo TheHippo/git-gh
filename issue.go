@@ -26,7 +26,8 @@ func runIssues(cmd *commander.Command, args []string) error {
 	fmt.Println("Issues...")
 
 	client := getClient()
+	repo := newRepository(rootFolder)
 	fmt.Println(client)
-	fmt.Println(rootFolder)
+	fmt.Println(repo)
 	return nil
 }
