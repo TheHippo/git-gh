@@ -17,7 +17,12 @@ List and search issues
 	Flag: *flag.NewFlagSet("issue", flag.ExitOnError),
 }
 
+func init() {
+	setRootFolderFlag(issueCommand)
+}
+
 func runIssues(cmd *commander.Command, args []string) error {
 	fmt.Println("Issues...")
+	fmt.Println(rootFolder)
 	return nil
 }

@@ -17,7 +17,12 @@ List and search pullrequests
 	Flag: *flag.NewFlagSet("pullrequest", flag.ExitOnError),
 }
 
+func init() {
+	setRootFolderFlag(pullRequestCommand)
+}
+
 func runPullRequest(cmd *commander.Command, args []string) error {
 	fmt.Println("pullrequests...")
+	fmt.Println(rootFolder)
 	return nil
 }
