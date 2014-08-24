@@ -18,7 +18,7 @@ type repository struct {
 // https://github.com/gonuts/commander.git
 // git@github.com:gonuts/commander.git
 
-var matchGithubURL = regexp.MustCompile(`(?i)github.com[:/]([a-z.0-9]+)/([a-z.0-9]+)\.git`)
+var matchGithubURL = regexp.MustCompile(`(?i)github.com[:/]([a-z.0-9-]+)/([a-z.0-9-]+)\.git`)
 
 func findGithubRemote(path string) (string, string, error) {
 	// git --git-dir=$PATH/.git --work-tree=$PATH/ remote -v
