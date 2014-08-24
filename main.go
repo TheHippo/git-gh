@@ -12,6 +12,7 @@ const (
 	appVersion = "0.0.1"
 
 	rootDirectoryFlag = "git-directory"
+	closedFlag        = "closed"
 )
 
 const (
@@ -50,9 +51,16 @@ func main() {
 					Name:      "list",
 					ShortName: "l",
 					Usage:     "List issues",
+					Flags: []cli.Flag{
+						cli.BoolFlag{
+							Name:  closedFlag,
+							Usage: "If set, shows closed instead of open issues",
+						},
+					},
 					Action: func(c *cli.Context) {
 						repository, client := getBase(c.GlobalString(rootDirectoryFlag))
-						if err := listIssues(repository, client); err != nil {
+						closed := c.Bool(closedFlag)
+						if err := listIssues(repository, client, closed); err != nil {
 							fmt.Println("Could not list issues: ", err.Error())
 							os.Exit(errorCodeIssueList)
 						}
