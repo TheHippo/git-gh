@@ -3,26 +3,16 @@ package main
 import (
 	"fmt"
 
-	"github.com/gonuts/commander"
-	"github.com/gonuts/flag"
+	"github.com/google/go-github/github"
 )
 
-var pullRequestCommand = &commander.Command{
-	UsageLine: "pullrequest",
-	Short:     "list & search pull requests",
-	Long: `
-List and search pullrequests
-`,
-	Run:  runPullRequest,
-	Flag: *flag.NewFlagSet("pullrequest", flag.ExitOnError),
-}
-
-func init() {
-	setRootFolderFlag(pullRequestCommand)
-}
-
-func runPullRequest(cmd *commander.Command, args []string) error {
-	fmt.Println("pullrequests...")
-	fmt.Println(rootFolder)
+func listPullRequest(repository *repository, client github.Client) error {
+	pullRequests, _, err := client.PullRequests.List(repository.user, repository.repositoryName, nil)
+	if err != nil {
+		return err
+	}
+	for _, pullRequest := range pullRequests {
+		fmt.Println(*pullRequest.Number, *pullRequest.Title)
+	}
 	return nil
 }

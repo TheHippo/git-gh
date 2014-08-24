@@ -17,6 +17,7 @@ const (
 const (
 	errorCodeIssueList = iota + 1
 	errorCodeIssueCreate
+	errorCodePullRequestList
 )
 
 func getBase(path string) (repository *repository, client github.Client) {
@@ -71,9 +72,20 @@ func main() {
 		{
 			Name:      "pullrequest",
 			ShortName: "p",
-			Usage:     "List pull request",
-			Action: func(c *cli.Context) {
-				fmt.Println("Pull request")
+			Usage:     "List and create pull request",
+			Subcommands: []cli.Command{
+				{
+					Name:      "list",
+					ShortName: "l",
+					Usage:     "List pull requests",
+					Action: func(c *cli.Context) {
+						repository, client := getBase(c.GlobalString(rootDirectoryFlag))
+						if err := listPullRequest(repository, client); err != nil {
+							fmt.Println("Could not list pull requests: ", err.Error())
+							os.Exit(errorCodePullRequestList)
+						}
+					},
+				},
 			},
 		},
 	}
