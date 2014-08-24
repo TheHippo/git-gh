@@ -4,27 +4,79 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/gonuts/commander"
+	"github.com/codegangsta/cli"
+	"github.com/google/go-github/github"
 )
 
-var ghCommander = &commander.Command{
-	UsageLine: "git-gh", //os.Args[0] + " - commandline interface for GitHub",
-	Short:     "Github command line interface",
-}
+const (
+	appVersion = "0.0.1"
 
-func init() {
+	rootDirectoryFlag = "git-directory"
+)
 
-	ghCommander.Subcommands = []*commander.Command{
-		issueCommand,
-		pullRequestCommand,
-	}
+const (
+	errorCodeIssueList = iota + 1
+	errorCodeIssueCreate
+)
+
+func getBase(path string) (repository *repository, client github.Client) {
+	repository = newRepository(path)
+	client = getClient()
+	return
 }
 
 func main() {
-	err := ghCommander.Dispatch(os.Args[1:])
-	if err != nil {
-		fmt.Printf("%v\n", err)
-		os.Exit(1)
+	app := cli.NewApp()
+	app.Name = "git-gh"
+	app.Usage = "github command line tools"
+	app.Version = appVersion
+
+	app.Flags = []cli.Flag{
+		cli.StringFlag{
+			Name:  fmt.Sprintf("%s, gd", rootDirectoryFlag),
+			Value: ".",
+			Usage: "Root of git repository",
+		},
 	}
-	return
+
+	app.Commands = []cli.Command{
+		{
+			Name:      "issue",
+			ShortName: "i",
+			Usage:     "List and create issues",
+			Subcommands: []cli.Command{
+				{
+					Name:      "list",
+					ShortName: "l",
+					Usage:     "List issues",
+					Action: func(c *cli.Context) {
+						repository, client := getBase(c.GlobalString(rootDirectoryFlag))
+						if err := listIssues(repository, client); err != nil {
+							fmt.Println("Could not list issues: ", err.Error())
+							os.Exit(errorCodeIssueList)
+						}
+
+					},
+				},
+				{
+					Name:      "create",
+					ShortName: "c",
+					Usage:     "Create issue",
+					Action: func(c *cli.Context) {
+						fmt.Println("Create issue")
+					},
+				},
+			},
+		},
+		{
+			Name:      "pullrequest",
+			ShortName: "p",
+			Usage:     "List pull request",
+			Action: func(c *cli.Context) {
+				fmt.Println("Pull request")
+			},
+		},
+	}
+
+	app.Run(os.Args)
 }
